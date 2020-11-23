@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Stomanage</string>
+    <string name="Email">אימייל</string>
+    <string name="Password">סיסמא</string>
+    <string name="login">התחבר</string>
+    <string name="register">רשום משתמש חדש</string>
+
+
+    <string name="temp">temp</string>
+</resources>

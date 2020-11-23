@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "860603397249",
+    "firebase_url": "https://stomanage-87f94.firebaseio.com",
+    "project_id": "stomanage-87f94",
+    "storage_bucket": "stomanage-87f94.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860603397249:android:77011a098b4059c6298980",
+        "android_client_info": {
+          "package_name": "com.example.stomanage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860603397249-r0mvucrer2pmasu0ags1rdiig1oilv0o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtrKZ4QG_TiH79unG2U98vcHZiuLgBZo0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860603397249-r0mvucrer2pmasu0ags1rdiig1oilv0o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
