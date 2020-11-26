@@ -101,8 +101,6 @@ public class Login extends AppCompatActivity {
 
     private void openNextView(UserObj user){
         Intent intent = null;
-        boolean b1 = user.getUserPerm().equals( Permissions.Perm.Manager.toString());
-        boolean b2 = user.getUserPerm().equals(Permissions.Perm.User.toString());
         if (user.getUserPerm().equals( Permissions.Perm.Manager.toString())) intent = new Intent(this,ManagerMainScreen.class);
         if (user.getUserPerm().equals(Permissions.Perm.User.toString())) intent = new Intent(getApplicationContext(),ManagerMainScreen.class);//TODO UserMainScreen
         intent.putExtra("user", (Serializable)user);
