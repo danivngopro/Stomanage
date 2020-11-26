@@ -7,15 +7,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.stomanage.firebase.dataObject.UserObj;
+import com.example.stomanage.firebase.model.FirebaseDBUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Login extends AppCompatActivity {
     EditText _Email, _password;
@@ -28,7 +39,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        _Email = findViewById(R.id.editTextTextEmailAddress);
+        _Email = findViewById(R.id.editTextLname);
         _password = findViewById(R.id.editTextTextPassword);
         _logInButton = findViewById(R.id.LogInButton);
         _auth = FirebaseAuth.getInstance();
@@ -43,7 +54,6 @@ public class Login extends AppCompatActivity {
                     _Email.setError("Email is required.");
                     return;
                 }
-
                 if(TextUtils.isEmpty(password)) {
                     _password.setError("Password is required.");
                     return;
@@ -54,25 +64,48 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            startActivity(new Intent(getApplicationContext(), ManagerMainScreen.class));
-                            _Email.setText("");
+                            String uid = task.getResult().getUser().getUid();
+                            DatabaseReference DBRef = FirebaseDatabase.getInstance().getReference();
+                            DBRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    GetUser(snapshot, uid);
+                                }
 
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
+                                }
+                            });
                         }
                         else{
                             Toast.makeText(Login.this, "Error" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-
+                            _password.setText("");
+                            _prog.setVisibility(View.INVISIBLE);
+                            _logInButton.setVisibility(View.VISIBLE);
                         }
-                        _password.setText("");
-                        _prog.setVisibility(View.INVISIBLE);
-                        _logInButton.setVisibility(View.VISIBLE);
-
-
                     }
                 });
             }
         });
+    }
 
+    private void GetUser(DataSnapshot snapshot, String uid){
+        UserObj user =  snapshot.child("users").child(uid).getValue(UserObj.class);
+        _Email.setText("");
+        _password.setText("");
+        _prog.setVisibility(View.INVISIBLE);
+        _logInButton.setVisibility(View.VISIBLE);
+        openNextView(user);
+    }
 
+    private void openNextView(UserObj user){
+        Intent intent = null;
+        boolean b1 = user.getUserPerm().equals( Permissions.Perm.Manager.toString());
+        boolean b2 = user.getUserPerm().equals(Permissions.Perm.User.toString());
+        if (user.getUserPerm().equals( Permissions.Perm.Manager.toString())) intent = new Intent(this,ManagerMainScreen.class);
+        if (user.getUserPerm().equals(Permissions.Perm.User.toString())) intent = new Intent(getApplicationContext(),ManagerMainScreen.class);//TODO UserMainScreen
+        intent.putExtra("user", (Serializable)user);
+        startActivity(intent);
     }
 }

@@ -3,7 +3,18 @@
     <string name="Email">אימייל</string>
     <string name="Password">סיסמא</string>
     <string name="login">התחבר</string>
+    <string name="registrar">הירשם</string>
     <string name="register">רשום משתמש חדש</string>
+    <string name="fname">שפ פרטי</string>
+    <string name="lname">שם משפחה</string>
+    <string name="phone">מספר פלאפון</string>
+    <string name="id">תעודת זהות</string>
+
+    <string name="troop">ניהול שבטים</string>
+    <string name="user">רישום משתמש חדש</string>
+    <string name="factory">ניהול מפעלים</string>
+    <string name="warehouse">ניהול מחסן</string>
+
 
 
     <string name="temp">temp</string>
