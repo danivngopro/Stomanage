@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity {
                             DBRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    GetUser(snapshot, uid);
+                                    GetUser(snapshot, uid, email);
                                 }
 
                                 @Override
@@ -90,19 +90,19 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void GetUser(DataSnapshot snapshot, String uid){
+    private void GetUser(DataSnapshot snapshot, String uid, String email){
         UserObj user =  snapshot.child("users").child(uid).getValue(UserObj.class);
         _Email.setText("");
         _password.setText("");
         _prog.setVisibility(View.INVISIBLE);
         _logInButton.setVisibility(View.VISIBLE);
-        openNextView(user);
+        openNextView(user, email);
     }
 
-    private void openNextView(UserObj user){
+    private void openNextView(UserObj user,String email){
         Intent intent = null;
-        if (user.getUserPerm().equals( Permissions.Perm.Manager.toString())) intent = new Intent(this,ManagerMainScreen.class);
-        if (user.getUserPerm().equals(Permissions.Perm.User.toString())) intent = new Intent(getApplicationContext(),ManagerMainScreen.class);//TODO UserMainScreen
+        if (user.getUserPerm().equals(Permissions.Perm.User.toString())) intent = new Intent(getApplicationContext(),itemList.class);//TODO UserMainScreen
+        else if (user.getUserPerm().equals( Permissions.Perm.Manager.toString())) intent = new Intent(this,ManagerMainScreen.class);
         intent.putExtra("user", (Serializable)user);
         startActivity(intent);
     }

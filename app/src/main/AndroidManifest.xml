@@ -15,7 +15,9 @@
         <activity android:name=".TroopManagerScreen" />
         <activity android:name=".register" />
         <activity android:name=".ManagerMainScreen" />
-        <activity android:name=".Login">
+        <activity android:name=".Login" />
+        <activity android:name=".itemList" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
