@@ -66,7 +66,7 @@ public class Login extends AppCompatActivity {
                         if(task.isSuccessful()){
                             String uid = task.getResult().getUser().getUid();
                             DatabaseReference DBRef = FirebaseDatabase.getInstance().getReference();
-                            DBRef.addValueEventListener(new ValueEventListener() {
+                            DBRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     GetUser(snapshot, uid);

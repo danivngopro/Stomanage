@@ -24,6 +24,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 public class ManagerMainScreen extends AppCompatActivity {
 
     TextView _name;
@@ -47,7 +49,27 @@ public class ManagerMainScreen extends AppCompatActivity {
         _User.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), register.class));
+                Intent intent = new Intent(getApplicationContext(), register.class);
+                intent.putExtra("user", (Serializable)user);
+                startActivity(intent);
+            }
+        });
+
+        _Troop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TroopManagerScreen.class);
+                intent.putExtra("user", (Serializable)user);
+                startActivity(intent);
+            }
+        });
+
+        _Factory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FactoryManagementScreen.class);
+                intent.putExtra("user", (Serializable)user);
+                startActivity(intent);
             }
         });
     }

@@ -34,7 +34,6 @@ public class FirebaseDBUser extends FirebaseBaseModel {
 
     private void writeNewUserToDB (String Uid, UserObj user){
         DBRef.child("users").child(Uid).setValue(user);
-
     }
 
     public DatabaseReference getUserFromDB(String uid){

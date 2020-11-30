@@ -9,12 +9,13 @@
     <string name="lname">שם משפחה</string>
     <string name="phone">מספר פלאפון</string>
     <string name="id">תעודת זהות</string>
-
+    <string name="TroopName">שם השבט</string>
     <string name="troop">ניהול שבטים</string>
     <string name="user">רישום משתמש חדש</string>
     <string name="factory">ניהול מפעלים</string>
     <string name="warehouse">ניהול מחסן</string>
-
+    <string name="add">הוסף</string>
+    <string name="factoryName">שם המפעל</string>
 
 
     <string name="temp">temp</string>
