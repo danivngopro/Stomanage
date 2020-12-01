@@ -1,12 +1,17 @@
 package com.example.stomanage;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -68,7 +73,7 @@ public class itemList extends AppCompatActivity {
         ref.addListenerForSingleValueEvent(valueEventListener);
     }
 
-    public void addValueToFirebase(String value) {
+    public void addValueToFirebase(String itemName, int amount) {
         DatabaseReference mDatabase;
 // get reference to your Firebase Database.
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -77,45 +82,7 @@ public class itemList extends AppCompatActivity {
         UserObj user = (UserObj)intent.getSerializableExtra("user");
         String id = user.getId();
 
-        mDatabase.child("userPrivateList").child(id).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                int counter = 1;
-                boolean foundKey = false;
-                for(DataSnapshot ds : snapshot.getChildren()) {
-                    if (ds.toString().split("key = ")[1].split(",")[0].equals(value)) {
-                        counter = Integer.parseInt(ds.toString().split("value = ")[1].split(" ")[0]) + 1;
-
-                        mDatabase.child("userPrivateList").child(id).child(value).setValue(counter);
-                        foundKey = true;
-                        return;
-                    }
-                }
-                if(!foundKey) mDatabase.child("userPrivateList").child(id).child(value).setValue(counter);
-                return;
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        mDatabase.child("userPrivateList").child(id).child(itemName).setValue(amount);
     }
 
     public void detectItemClickedFromList() {
@@ -125,7 +92,37 @@ public class itemList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String valueSelected = listView.getItemAtPosition(position).toString();
 
-                addValueToFirebase(valueSelected);
+                Dialog dialog;
+                dialog = new Dialog(itemList.this);
+                dialog.setContentView(R.layout.activity_pop_up);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.dialog_background));
+                }
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setCancelable(true);
+                dialog.getWindow().getAttributes().windowAnimations = R.style.popUpAnimation;
+                dialog.show();
+
+
+                Button addProductButton = dialog.findViewById(R.id.addProductButton);
+                addProductButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        EditText amountText = (EditText)(dialog.findViewById(R.id.AmountOfProduct));
+                        String str = amountText.getText().toString();
+                        if(str.trim().length() > 0) {
+                            int amount = Integer.parseInt(str);
+                            Toast.makeText(itemList.this, "item Added!", Toast.LENGTH_SHORT).show();
+                            addValueToFirebase(valueSelected, amount);
+                            dialog.dismiss();
+                        }
+                        else {
+                            Toast.makeText(itemList.this, "please enter an amount", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
             }
         });
