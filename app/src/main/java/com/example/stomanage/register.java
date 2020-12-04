@@ -7,10 +7,19 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.stomanage.firebase.dataObject.UserObj;
 import com.example.stomanage.firebase.model.FirebaseDBUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class register extends AppCompatActivity {
     Spinner perms,troop;
@@ -38,7 +47,7 @@ public class register extends AppCompatActivity {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         perms.setAdapter(adapter);
-
+        setTroopSpinner();
 
         SignUp.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -46,21 +55,37 @@ public class register extends AppCompatActivity {
                 UserObj user = new UserObj(fname.getText().toString().trim(),
                         lname.getText().toString().trim(),
                         id.getText().toString().trim(),
-                        "יובל"//troop.getSelectedItem().toString(),
-                        ,email.getText().toString().trim(),
+                        troop.getSelectedItem().toString(),
+                        email.getText().toString().trim(),
                         phone.getText().toString().trim(),
-                       perms.getSelectedItem().toString());
+                        perms.getSelectedItem().toString());
                 FirebaseDBUser DBU = new FirebaseDBUser();
                 DBU.addNewUserToDB(user,  password.getText().toString().trim(), getApplicationContext());
                 finish();
             }
         });
+    }
 
 
+    private void setTroopSpinner(){
+        DatabaseReference DBRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = DBRef.child("troops list");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> items = new ArrayList<>();
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String item = ds.getValue(String.class);
+                    items.add(item);
+                }
 
+                ArrayAdapter<String> troopadapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, items);
+                troop.setAdapter(troopadapter);
+            }
 
-
-
-
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        ref.addListenerForSingleValueEvent(valueEventListener);
     }
 }
