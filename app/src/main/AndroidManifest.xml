@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Stomanage">
-        <activity android:name=".NewFactory"></activity>
+        <activity android:name=".WarehouseManagementScreen"></activity>
+        <activity android:name=".NewFactory" />
         <activity android:name=".FactoryManagementScreen" />
-        <activity android:name=".NewTroop" />
         <activity android:name=".TroopManagerScreen" />
         <activity android:name=".register" />
         <activity android:name=".ManagerMainScreen" />
