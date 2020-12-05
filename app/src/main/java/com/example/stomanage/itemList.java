@@ -51,38 +51,89 @@ public class itemList extends AppCompatActivity {
 
 
 
+//    public void printItems() {
+//        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+//        DatabaseReference ref = rootRef.child("items list");
+//        ValueEventListener valueEventListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                List<String> items = new ArrayList<>();
+//                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    String item = ds.child("item").getValue(String.class);
+//                    items.add(item);
+//                }
+//                ListView listView = (ListView) findViewById(R.id.listview1);
+//                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(itemList.this, android.R.layout.simple_list_item_1,items);
+//                listView.setAdapter(arrayAdapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {}
+//        };
+//        ref.addListenerForSingleValueEvent(valueEventListener);
+//    }
+
     public void printItems() {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = rootRef.child("items list");
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        DatabaseReference databaseReference;
+        ListView listView;
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayAdapter<String> arrayAdapter;
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("items list");
+        listView = (ListView) findViewById(R.id.listview1);
+        arrayAdapter = new ArrayAdapter<String>(itemList.this, android.R.layout.simple_list_item_1,arrayList);
+        listView.setAdapter(arrayAdapter);
+        databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> items = new ArrayList<>();
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String item = ds.child("item").getValue(String.class);
-                    items.add(item);
-                }
-                ListView listView = (ListView) findViewById(R.id.listview1);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(itemList.this, android.R.layout.simple_list_item_1,items);
-                listView.setAdapter(arrayAdapter);
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String item = snapshot.child("item").getValue(String.class);
+                arrayList.add(item);
+                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        };
-        ref.addListenerForSingleValueEvent(valueEventListener);
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                String item = snapshot.child("item").getValue(String.class);
+                arrayList.remove(item);
+                arrayAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
-    public void addValueToFirebase(String itemName, int amount) {
+
+    public void addValueToFirebase(String activityName, String itemName, int amount) {
         DatabaseReference mDatabase;
-// get reference to your Firebase Database.
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         Intent intent = getIntent();
         UserObj user = (UserObj)intent.getSerializableExtra("user");
         String id = user.getId();
+//        mDatabase.child("items list").push().child("item").setValue("a");
+//        mDatabase.child("items list").push().child("item").setValue("b");
+//        mDatabase.child("items list").push().child("item").setValue("c");
+//        mDatabase.child("items list").push().child("item").setValue("d");
+//        mDatabase.child("items list").push().child("item").setValue("e");
+//        mDatabase.child("items list").push().child("item").setValue("f");
+//        mDatabase.child("items list").push().child("item").setValue("g");
+//        mDatabase.child("items list").push().child("item").setValue("h");
 
-        mDatabase.child("userPrivateList").child(id).child(itemName).setValue(amount);
+        mDatabase.child("userPrivateList").child(id).child(activityName).child(itemName).setValue(amount);
     }
 
     public void detectItemClickedFromList() {
@@ -111,11 +162,13 @@ public class itemList extends AppCompatActivity {
 
 
                         EditText amountText = (EditText)(dialog.findViewById(R.id.AmountOfProduct));
-                        String str = amountText.getText().toString();
-                        if(str.trim().length() > 0) {
-                            int amount = Integer.parseInt(str);
+                        EditText groupName = (EditText)(dialog.findViewById(R.id.GroupName));
+                        String amount = amountText.getText().toString();
+                        String group = groupName.getText().toString();
+                        if(amount.trim().length() > 0) {
+                            int amountinteger = Integer.parseInt(amount);
                             Toast.makeText(itemList.this, "item Added!", Toast.LENGTH_SHORT).show();
-                            addValueToFirebase(valueSelected, amount);
+                            addValueToFirebase(group, valueSelected, amountinteger);
                             dialog.dismiss();
                         }
                         else {

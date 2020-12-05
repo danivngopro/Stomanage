@@ -102,5 +102,5 @@ public class WarehouseManagementScreen extends AppCompatActivity {
         String key = DBRef.push().getKey();
         DBRef.child("items list").child(key).setValue(troop);
     }
-    }
+
 }
