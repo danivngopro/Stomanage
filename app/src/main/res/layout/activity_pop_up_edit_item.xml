@@ -10,18 +10,18 @@
 
     <EditText
         android:id="@+id/FactoryName"
-        android:layout_width="237dp"
+        android:layout_width="268dp"
         android:layout_height="85dp"
         android:ems="10"
         android:focusable="false"
         android:inputType="text"
-        android:text="Please enter troop name:"
+        android:text="Please enter quantity:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="209dp" />
 
     <EditText
-        android:id="@+id/troopName"
+        android:id="@+id/AmountOfProduct"
         android:layout_width="wrap_content"
         android:layout_height="84dp"
         android:layout_marginStart="5dp"
@@ -29,16 +29,17 @@
         android:layout_toEndOf="@+id/FactoryName"
         android:layout_toRightOf="@+id/FactoryName"
         android:ems="10"
-        android:hint="@string/TroopName"
-        android:inputType="text" />
+        android:inputType="number"
+        android:text="1" />
+
 
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/addProductButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-50dp"
-        android:layout_marginLeft="-50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="-120dp"
+        android:layout_marginLeft="-120dp"
+        android:layout_marginTop="100dp"
         android:layout_toEndOf="@+id/FactoryName"
         android:layout_toRightOf="@+id/FactoryName"
         android:text="add" />

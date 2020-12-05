@@ -9,7 +9,7 @@
     android:background="@color/white">
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/FactoryName"
         android:layout_width="268dp"
         android:layout_height="85dp"
         android:ems="10"
@@ -26,8 +26,8 @@
         android:layout_height="84dp"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_toEndOf="@+id/editTextTextPersonName2"
-        android:layout_toRightOf="@+id/editTextTextPersonName2"
+        android:layout_toEndOf="@+id/FactoryName"
+        android:layout_toRightOf="@+id/FactoryName"
         android:ems="10"
         android:inputType="number"
         android:text="1" />
@@ -52,8 +52,8 @@
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="100dp"
-        android:layout_toEndOf="@+id/editTextTextPersonName2"
-        android:layout_toRightOf="@+id/editTextTextPersonName2"
+        android:layout_toEndOf="@+id/FactoryName"
+        android:layout_toRightOf="@+id/FactoryName"
         android:ems="10"
         android:inputType="text"
         android:text="1" />
@@ -66,7 +66,7 @@
         android:layout_marginStart="-120dp"
         android:layout_marginLeft="-120dp"
         android:layout_marginTop="200dp"
-        android:layout_toEndOf="@+id/editTextTextPersonName2"
-        android:layout_toRightOf="@+id/editTextTextPersonName2"
+        android:layout_toEndOf="@+id/FactoryName"
+        android:layout_toRightOf="@+id/FactoryName"
         android:text="add" />
 </RelativeLayout>

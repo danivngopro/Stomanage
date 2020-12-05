@@ -93,7 +93,12 @@ public class itemList extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                arrayAdapter.notifyDataSetChanged();
+                Intent intent = getIntent();
+                UserObj user = (UserObj)intent.getSerializableExtra("user");
+
+                intent = new Intent(getApplicationContext(), itemList.class);
+                intent.putExtra("user", (Serializable)user);
+                startActivity(intent);
             }
 
             @Override

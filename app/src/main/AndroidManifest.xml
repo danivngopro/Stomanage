@@ -10,13 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Stomanage">
         <activity android:name=".WarehouseManagementScreen"></activity>
-        <activity android:name=".NewFactory" />
         <activity android:name=".FactoryManagementScreen" />
         <activity android:name=".TroopManagerScreen" />
+        <activity android:name=".FactoryitemList" />
         <activity android:name=".register" />
         <activity android:name=".ManagerMainScreen" />
         <activity android:name=".Login" />
         <activity android:name=".itemList" />
+        <activity android:name=".UserMainScreen" />
+        <activity android:name=".viewOpenFactoriesForOrders" />
+        <activity android:name=".viewPersonallists" />
+        <activity android:name=".viewPersonalListItems" />
+        <activity android:name=".viewOpenFactories" />
+        <activity android:name=".viewPersonalFactoryOrders" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
