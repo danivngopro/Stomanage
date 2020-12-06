@@ -47,7 +47,7 @@ public class WarehouseManagementScreen extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<String> items = new ArrayList<>();
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String item = ds.getValue(String.class);
+                    String item = ds.child("item").getValue(String.class);
                     items.add(item);
                 }
                 ListView listView = (ListView) findViewById(R.id.list_view);
@@ -67,7 +67,7 @@ public class WarehouseManagementScreen extends AppCompatActivity {
             public void onClick(View v) {
                 Dialog dialog;
                 dialog = new Dialog(WarehouseManagementScreen.this);
-                dialog.setContentView(R.layout.activity_pop_up_new_troop);
+                dialog.setContentView(R.layout.activity_pop_up_new_item);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.dialog_background));
                 }
@@ -100,7 +100,6 @@ public class WarehouseManagementScreen extends AppCompatActivity {
     private void writeNewTroopToDB(String troop) {
         DatabaseReference DBRef = FirebaseDatabase.getInstance().getReference();
         String key = DBRef.push().getKey();
-        DBRef.child("items list").child(key).setValue(troop);
+        DBRef.child("items list").child(key).child("item").setValue(troop);
     }
-
 }

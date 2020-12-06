@@ -72,6 +72,15 @@ public class ManagerMainScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        _Warehouse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), WarehouseManagementScreen.class);
+                intent.putExtra("user", (Serializable)user);
+                startActivity(intent);
+            }
+        });
     }
 
 

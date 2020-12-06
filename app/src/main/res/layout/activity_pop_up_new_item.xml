@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginLeft="20dp"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/FactoryName"
+        android:layout_width="237dp"
+        android:layout_height="85dp"
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="text"
+        android:text="Please enter item name:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="209dp" />
+
+    <EditText
+        android:id="@+id/troopName"
+        android:layout_width="wrap_content"
+        android:layout_height="84dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/FactoryName"
+        android:layout_toRightOf="@+id/FactoryName"
+        android:ems="10"
+        android:hint="@string/itemName"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-50dp"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginTop="80dp"
+        android:layout_toEndOf="@+id/FactoryName"
+        android:layout_toRightOf="@+id/FactoryName"
+        android:text="add" />
+</RelativeLayout>
