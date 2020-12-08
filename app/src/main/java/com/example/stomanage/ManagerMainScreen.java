@@ -88,8 +88,7 @@ public class ManagerMainScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(ManagerMainScreen.this, Login.class);
-                startActivity(intent);
+                finish();
             }
         });
 
