@@ -70,6 +70,7 @@ public class viewPersonalListItems extends AppCompatActivity {
                 intent.putExtra("user", (Serializable)user);
                 intent.putExtra("listChosen", listID);
                 startActivity(intent);
+                finish();
 //                arrayAdapter.notifyDataSetChanged();
                 //need to fighure out how to display new child and delete previous one.
             }

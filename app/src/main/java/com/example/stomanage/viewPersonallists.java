@@ -57,12 +57,7 @@ public class viewPersonallists extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Intent intent = getIntent();
-                UserObj user = (UserObj)intent.getSerializableExtra("user");
-
-                intent = new Intent(getApplicationContext(), viewPersonallists.class);
-                intent.putExtra("user", (Serializable)user);
-                startActivity(intent);
+                
             }
 
             @Override
@@ -102,7 +97,7 @@ public class viewPersonallists extends AppCompatActivity {
                 intent.putExtra("user", (Serializable)user);
                 intent.putExtra("listChosen", valueSelected);
                 startActivity(intent);
-
+                finish();
 
             }
         });

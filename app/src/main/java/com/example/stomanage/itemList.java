@@ -99,6 +99,7 @@ public class itemList extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), itemList.class);
                 intent.putExtra("user", (Serializable)user);
                 startActivity(intent);
+                finish();
             }
 
             @Override

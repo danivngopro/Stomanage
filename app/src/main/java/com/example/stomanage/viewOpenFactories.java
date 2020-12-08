@@ -93,7 +93,7 @@ public class viewOpenFactories extends AppCompatActivity {
                 intent.putExtra("user", (Serializable)user);
                 intent.putExtra("listChosen", valueSelected);
                 startActivity(intent);
-
+                finish();
 
             }
         });
