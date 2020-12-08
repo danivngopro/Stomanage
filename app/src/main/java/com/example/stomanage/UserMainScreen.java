@@ -9,13 +9,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stomanage.firebase.dataObject.UserObj;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
 
 public class UserMainScreen extends AppCompatActivity {
 
     TextView _name;
-    Button oerderItemsButton, watchPersonalListsButton, orderFactoryItemsButton,watchOrderFactory;
+    Button oerderItemsButton, watchPersonalListsButton, orderFactoryItemsButton,watchOrderFactory, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,9 @@ public class UserMainScreen extends AppCompatActivity {
         watchPersonalListsButton = (Button)findViewById(R.id.watchLists);
         orderFactoryItemsButton = (Button)findViewById(R.id.orderProductsForFactory);
         watchOrderFactory = (Button)findViewById(R.id.watchOrderFactory);
+        logout = (Button)findViewById(R.id.logOutButton);
+
+
 
         oerderItemsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +70,15 @@ public class UserMainScreen extends AppCompatActivity {
                 intent.putExtra("user", (Serializable)user);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(UserMainScreen.this, Login.class);
+                startActivity(intent);
             }
         });
     }

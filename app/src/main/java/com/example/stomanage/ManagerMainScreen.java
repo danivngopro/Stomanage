@@ -29,7 +29,7 @@ import java.io.Serializable;
 public class ManagerMainScreen extends AppCompatActivity {
 
     TextView _name;
-    Button _Troop,_User,_Factory,_Warehouse;
+    Button _Troop,_User,_Factory,_Warehouse,logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class ManagerMainScreen extends AppCompatActivity {
         _User = (Button)findViewById(R.id.buttonUser);
         _Factory = (Button)findViewById(R.id.buttonFactory);
         _Warehouse = (Button)findViewById(R.id.buttonWarehouse);
+        logout = (Button)findViewById(R.id.logOutButton);
 
         _User.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +82,16 @@ public class ManagerMainScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(ManagerMainScreen.this, Login.class);
+                startActivity(intent);
+            }
+        });
+
     }
-
-
 }
