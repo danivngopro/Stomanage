@@ -102,6 +102,17 @@ public class viewPersonalFactoryOrders extends AppCompatActivity {
         mDatabase.child("Factories").child(activityName).child(id).child(itemName).setValue(amount);
     }
 
+    public void removeValueFromFirebase(String activityName, String itemName) {
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        Intent intent = getIntent();
+        UserObj user = (UserObj)intent.getSerializableExtra("user");
+        String id = user.getId();
+
+        mDatabase.child("Factories").child(activityName).child(id).child(itemName).setValue(null);
+    }
+
     public void detectItemClickedFromList() {
         ListView listView = (ListView) findViewById(R.id.listview1);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -139,6 +150,17 @@ public class viewPersonalFactoryOrders extends AppCompatActivity {
                         else {
                             Toast.makeText(viewPersonalFactoryOrders.this, "please enter an amount", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+                Button removeItemButton = dialog.findViewById(R.id.removeItemButton);
+                removeItemButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = getIntent();
+                        String group = intent.getStringExtra("listChosen");
+                        Toast.makeText(viewPersonalFactoryOrders.this, "item removed", Toast.LENGTH_SHORT).show();
+                        removeValueFromFirebase(group, valueSelected);
+                        dialog.dismiss();
                     }
                 });
             }

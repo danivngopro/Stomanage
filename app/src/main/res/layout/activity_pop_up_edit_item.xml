@@ -37,10 +37,21 @@
         android:id="@+id/addProductButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-120dp"
-        android:layout_marginLeft="-120dp"
+        android:layout_marginStart="-18dp"
+        android:layout_marginLeft="-18dp"
         android:layout_marginTop="100dp"
         android:layout_toEndOf="@+id/FactoryName"
         android:layout_toRightOf="@+id/FactoryName"
         android:text="add" />
+
+    <Button
+        android:id="@+id/removeItemButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-185dp"
+        android:layout_marginLeft="-185dp"
+        android:layout_marginTop="100dp"
+        android:layout_toEndOf="@+id/FactoryName"
+        android:layout_toRightOf="@+id/FactoryName"
+        android:text="remove" />
 </RelativeLayout>
