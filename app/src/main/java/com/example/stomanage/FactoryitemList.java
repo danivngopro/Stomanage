@@ -89,7 +89,7 @@ public class FactoryitemList extends AppCompatActivity {
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         mDatabase.child("Factories").child(activityName).child("orders").child(uid).child(itemName).setValue(amount);
     }

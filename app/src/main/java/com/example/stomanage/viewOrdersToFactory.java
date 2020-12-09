@@ -1,68 +1,63 @@
 package com.example.stomanage;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
 import com.example.stomanage.firebase.dataObject.FactoryObj;
-import com.example.stomanage.firebase.dataObject.UserObj;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class viewOpenFactoriesForOrders extends AppCompatActivity {
+public class viewOrdersToFactory extends AppCompatActivity {
 
-    ArrayList<String> kay;
-    UserObj user;
+    String factoryKey, factoryName;
+    ArrayList<String> Uids;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_personal_lists);
+        setContentView(R.layout.activity_view_orders_to_factory);
+
+        Uids = new ArrayList<>();
 
         Intent intent = getIntent();
-        user = (UserObj)intent.getSerializableExtra("user");
-
-        kay = new ArrayList<>();
+        factoryKey = intent.getStringExtra("factorySelectedKey");
+        factoryName = intent.getStringExtra("factorySelected");
 
         printItems();
 
         detectItemClickedFromList();
-
     }
-
 
     private void printItems() {
         DatabaseReference DBRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = DBRef.child("Factories");
+        DatabaseReference ref = DBRef.child("Factories").child(factoryKey).child("orders");
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> items = new ArrayList<>();
+                List<String> orders = new ArrayList<>();
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    FactoryObj factory = ds.getValue(FactoryObj.class);
-                    if (factory.get_troop().equals(user.getTroop())){
-                        String factoryKey = ds.getKey().toString();
-                        kay.add(factoryKey);
-                        items.add(factory.get_name());
-                    }
+                    String uid = ds.getKey();
+                    orders.add(uid);
+                    Uids.add(uid);
                 }
-                ListView listView = (ListView) findViewById(R.id.listview1);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(viewOpenFactoriesForOrders.this, android.R.layout.simple_list_item_1,items);
+                ListView listView = (ListView) findViewById(R.id.Orderslist);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(viewOrdersToFactory.this, android.R.layout.simple_list_item_1,orders);
                 listView.setAdapter(arrayAdapter);
             }
 
@@ -73,18 +68,15 @@ public class viewOpenFactoriesForOrders extends AppCompatActivity {
     }
 
     public void detectItemClickedFromList() {
-        ListView listView = (ListView) findViewById(R.id.listview1);
+        ListView listView = (ListView) findViewById(R.id.Orderslist);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String valueSelected = listView.getItemAtPosition(position).toString();
 
-                //send intent with user details and group names.
-
-                Intent intent;
-                intent = new Intent(getApplicationContext(), FactoryitemList.class);
-                intent.putExtra("user", (Serializable)user);
-                intent.putExtra("factoryChosen", kay.get(position));
+                Intent intent = new Intent(viewOrdersToFactory.this, ManagerViewOrder.class);
+                intent.putExtra("factoryKey",factoryKey);
+                intent.putExtra("uid",Uids.get(position));
                 startActivity(intent);
             }
         });

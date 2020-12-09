@@ -29,10 +29,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class viewPersonalFactoryOrders extends AppCompatActivity {
+
+    String factoryId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_personal_list_items);
+
+        Intent intent = getIntent();
+        factoryId = intent.getStringExtra("factoryChosen");
+
 
         printItems();
 
@@ -46,11 +53,9 @@ public class viewPersonalFactoryOrders extends AppCompatActivity {
         ArrayList<String> arrayList = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter;
 
-        Intent intent = getIntent();
-        UserObj user = (UserObj)intent.getSerializableExtra("user");
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-        String listID = intent.getStringExtra("factoryChosen");
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Factories").child(listID).child("orders").child(uid);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Factories").child(factoryId).child("orders").child(uid);
         listView = (ListView) findViewById(R.id.listview1);
         arrayAdapter = new ArrayAdapter<String>(viewPersonalFactoryOrders.this, android.R.layout.simple_list_item_1, arrayList);
         listView.setAdapter(arrayAdapter);
@@ -68,9 +73,9 @@ public class viewPersonalFactoryOrders extends AppCompatActivity {
                 UserObj user = (UserObj)intent.getSerializableExtra("user");
 
                 intent = new Intent(getApplicationContext(), viewPersonalFactoryOrders.class);
-                intent.putExtra("user", (Serializable)user);
-                intent.putExtra("listChosen", listID);
+                intent.putExtra("factoryChosen", factoryId);
                 startActivity(intent);
+                finish();
             }
 
             @Override
@@ -96,22 +101,18 @@ public class viewPersonalFactoryOrders extends AppCompatActivity {
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        Intent intent = getIntent();
-        UserObj user = (UserObj)intent.getSerializableExtra("user");
-        String id = user.getId();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mDatabase.child("Factories").child(activityName).child(id).child(itemName).setValue(amount);
+        mDatabase.child("Factories").child(activityName).child("orders").child(uid).child(itemName).setValue(amount);
     }
 
     public void removeValueFromFirebase(String activityName, String itemName) {
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        Intent intent = getIntent();
-        UserObj user = (UserObj)intent.getSerializableExtra("user");
-        String id = user.getId();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mDatabase.child("Factories").child(activityName).child(id).child(itemName).setValue(null);
+        mDatabase.child("Factories").child(activityName).child("orders").child(uid).child(itemName).setValue(null);
     }
 
     public void detectItemClickedFromList() {
@@ -140,12 +141,10 @@ public class viewPersonalFactoryOrders extends AppCompatActivity {
 
                         EditText amountText = (EditText)(dialog.findViewById(R.id.AmountOfProduct));
                         String amount = amountText.getText().toString();
-                        Intent intent = getIntent();
-                        String group = intent.getStringExtra("listChosen");
                         if(amount.trim().length() > 0) {
                             int amountinteger = Integer.parseInt(amount);
                             Toast.makeText(viewPersonalFactoryOrders.this, "item updated!", Toast.LENGTH_SHORT).show();
-                            addValueToFirebase(group, valueSelected, amountinteger);
+                            addValueToFirebase(factoryId, valueSelected, amountinteger);
                             dialog.dismiss();
                         }
                         else {
@@ -157,10 +156,8 @@ public class viewPersonalFactoryOrders extends AppCompatActivity {
                 removeItemButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = getIntent();
-                        String group = intent.getStringExtra("listChosen");
                         Toast.makeText(viewPersonalFactoryOrders.this, "item removed", Toast.LENGTH_SHORT).show();
-                        removeValueFromFirebase(group, valueSelected);
+                        removeValueFromFirebase(factoryId, valueSelected);
                         dialog.dismiss();
                     }
                 });
