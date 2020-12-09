@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stomanage.firebase.dataObject.UserObj;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -88,11 +89,9 @@ public class FactoryitemList extends AppCompatActivity {
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        Intent intent = getIntent();
-        UserObj user = (UserObj)intent.getSerializableExtra("user");
-        String id = user.getId();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
 
-        mDatabase.child("Factories").child(activityName).child(id).child(itemName).setValue(amount);
+        mDatabase.child("Factories").child(activityName).child("orders").child(uid).child(itemName).setValue(amount);
     }
 
     public void detectItemClickedFromList() {
@@ -122,7 +121,7 @@ public class FactoryitemList extends AppCompatActivity {
                         EditText amountText = (EditText)(dialog.findViewById(R.id.AmountOfProduct));
                         String amount = amountText.getText().toString();
                         Intent intent = getIntent();
-                        String group = intent.getStringExtra("listChosen");
+                        String group = intent.getStringExtra("factoryChosen");
                         if(amount.trim().length() > 0) {
                             int amountinteger = Integer.parseInt(amount);
                             Toast.makeText(FactoryitemList.this, "item updated!", Toast.LENGTH_SHORT).show();

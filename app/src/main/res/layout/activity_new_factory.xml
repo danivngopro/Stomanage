@@ -1,34 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="20dp"
-    android:layout_marginLeft="20dp"
-    android:background="@color/white">
+    android:layout_height="match_parent"
+    tools:context=".NewFactory">
+
+    <TextView
+        android:id="@+id/screenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="יצירת מפעל חדש"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/FactoryName"
-        android:layout_width="match_parent"
-        android:layout_height="85dp"
-        android:layout_marginRight="80px"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
         android:ems="10"
+        android:hint="שם מפעל"
         android:inputType="text"
-        android:text="הכנס שם מפעל"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="209dp" />
+        app:layout_constraintTop_toBottomOf="@+id/screenName" />
 
+    <Spinner
+        android:id="@+id/spinnerTroop"
+        android:layout_width="209dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/FactoryName"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toStartOf="@+id/FactoryName"
+        app:layout_constraintTop_toBottomOf="@+id/FactoryName" />
+
+    <TextView
+        android:id="@+id/textViewtroop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/spinnerTroop"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toEndOf="@+id/spinnerTroop"
+        android:layout_toRightOf="@+id/spinnerTroop"
+        android:text="שבט:"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/spinnerTroop"
+        app:layout_constraintStart_toEndOf="@+id/spinnerTroop" />
+
+
+    <EditText
+        android:id="@+id/EditTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinnerTroop"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:hint="בחר תאריך"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTroop" />
 
     <Button
         android:id="@+id/addProductButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-252dp"
-        android:layout_marginLeft="-212dp"
-        android:layout_marginTop="100dp"
-        android:layout_toEndOf="@+id/FactoryName"
-        android:layout_toRightOf="@+id/FactoryName"
-        android:text="add" />
-</RelativeLayout>
+        android:layout_below="@+id/in_date"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="50dp"
+        android:text="add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextDate" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

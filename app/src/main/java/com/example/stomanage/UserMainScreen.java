@@ -69,7 +69,6 @@ public class UserMainScreen extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), viewOpenFactoriesForOrders.class);
                 intent.putExtra("user", (Serializable)user);
                 startActivity(intent);
-                finish();
             }
         });
 

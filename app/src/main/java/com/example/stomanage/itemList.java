@@ -44,34 +44,10 @@ public class itemList extends AppCompatActivity {
         setContentView(R.layout.activity_itemlist);
 
         printItems();
-
         detectItemClickedFromList();
 
     }
 
-
-
-//    public void printItems() {
-//        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-//        DatabaseReference ref = rootRef.child("items list");
-//        ValueEventListener valueEventListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                List<String> items = new ArrayList<>();
-//                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    String item = ds.child("item").getValue(String.class);
-//                    items.add(item);
-//                }
-//                ListView listView = (ListView) findViewById(R.id.listview1);
-//                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(itemList.this, android.R.layout.simple_list_item_1,items);
-//                listView.setAdapter(arrayAdapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {}
-//        };
-//        ref.addListenerForSingleValueEvent(valueEventListener);
-//    }
 
     public void printItems() {
         DatabaseReference databaseReference;

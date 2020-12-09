@@ -11,21 +11,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.stomanage.firebase.dataObject.FactoryObj;
 import com.example.stomanage.firebase.dataObject.UserObj;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class viewOpenFactoriesForOrders extends AppCompatActivity {
+
+    ArrayList<String> kay;
+    UserObj user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_personal_lists);
+
+        Intent intent = getIntent();
+        user = (UserObj)intent.getSerializableExtra("user");
+
+        kay = new ArrayList<>();
 
         printItems();
 
@@ -34,48 +46,30 @@ public class viewOpenFactoriesForOrders extends AppCompatActivity {
     }
 
 
-    public void printItems() {
-        DatabaseReference databaseReference;
-        ListView listView;
-        ArrayList<String> arrayList = new ArrayList<>();
-        ArrayAdapter<String> arrayAdapter;
-
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Factories");
-        listView = (ListView) findViewById(R.id.listview1);
-        arrayAdapter = new ArrayAdapter<String>(viewOpenFactoriesForOrders.this, android.R.layout.simple_list_item_1, arrayList);
-        listView.setAdapter(arrayAdapter);
-        databaseReference.addChildEventListener(new ChildEventListener() {
+    private void printItems() {
+        DatabaseReference DBRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = DBRef.child("Factories");
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    String item = snapshot.getKey();
-                    arrayList.add(item);
-                    arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds : snapshot.getChildren()) {
-                    String item = ds.getKey();
-                    arrayList.add(item);
-                    arrayAdapter.notifyDataSetChanged();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> items = new ArrayList<>();
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    FactoryObj factory = ds.getValue(FactoryObj.class);
+                    if (factory.get_troop().equals(user.getTroop())){
+                        String factoryKey = ds.getKey().toString();
+                        kay.add(factoryKey);
+                        items.add(factory.get_name());
+                    }
                 }
+                ListView listView = (ListView) findViewById(R.id.listview1);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(viewOpenFactoriesForOrders.this, android.R.layout.simple_list_item_1,items);
+                listView.setAdapter(arrayAdapter);
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        ref.addListenerForSingleValueEvent(valueEventListener);
     }
 
     public void detectItemClickedFromList() {
@@ -87,12 +81,11 @@ public class viewOpenFactoriesForOrders extends AppCompatActivity {
 
                 //send intent with user details and group names.
 
-                Intent intent = getIntent();
-                UserObj user = (UserObj)intent.getSerializableExtra("user");
+                Intent intent;
 
                 intent = new Intent(getApplicationContext(), FactoryitemList.class);
                 intent.putExtra("user", (Serializable)user);
-                intent.putExtra("listChosen", valueSelected);
+                intent.putExtra("factoryChosen", kay.get(position));
                 startActivity(intent);
 
 

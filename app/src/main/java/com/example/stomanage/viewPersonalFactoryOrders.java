@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.stomanage.firebase.dataObject.UserObj;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,9 +48,9 @@ public class viewPersonalFactoryOrders extends AppCompatActivity {
 
         Intent intent = getIntent();
         UserObj user = (UserObj)intent.getSerializableExtra("user");
-        String id = user.getId();
-        String listID = intent.getStringExtra("listChosen");
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Factories").child(listID).child(id);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        String listID = intent.getStringExtra("factoryChosen");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Factories").child(listID).child("orders").child(uid);
         listView = (ListView) findViewById(R.id.listview1);
         arrayAdapter = new ArrayAdapter<String>(viewPersonalFactoryOrders.this, android.R.layout.simple_list_item_1, arrayList);
         listView.setAdapter(arrayAdapter);

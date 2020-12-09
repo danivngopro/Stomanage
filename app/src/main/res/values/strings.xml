@@ -15,7 +15,8 @@
     <string name="factory">ניהול מפעלים</string>
     <string name="warehouse">ניהול מחסן</string>
     <string name="add">הוסף</string>
-    <string name="factoryName">שם המפעל</string> itemName
+    <string name="factoryName">שם המפעל</string>
+    itemName
     <string name="itemName">השם המוצר</string>
 
     <string name="temp">temp</string>
